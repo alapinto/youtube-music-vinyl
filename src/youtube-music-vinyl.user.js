@@ -1,5 +1,5 @@
-// @downloadURL  https://raw.githubusercontent.com/<tu-usuario>/youtube-music-vinyl/main/src/youtube-music-vinyl.user.js
-// @updateURL    https://raw.githubusercontent.com/<tu-usuario>/youtube-music-vinyl/main/src/youtube-music-vinyl.user.js
+// @downloadURL  https://raw.githubusercontent.com/alapinto/youtube-music-vinyl/main/src/youtube-music-vinyl.user.js
+// @updateURL    https://raw.githubusercontent.com/alapinto/youtube-music-vinyl/main/src/youtube-music-vinyl.user.js
 // ==UserScript==
 // @name         YouTube Music - Vinilo giratorio optimizado (fix círculo)
 // @namespace    https://tampermonkey.net/
@@ -315,3 +315,4 @@
 
   console.log('YouTube Music Vinyl — círculo perfecto aplicado');
 })();
+
