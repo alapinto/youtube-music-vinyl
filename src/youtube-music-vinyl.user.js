@@ -1,7 +1,7 @@
 // @downloadURL  https://raw.githubusercontent.com/alapinto/youtube-music-vinyl/main/src/youtube-music-vinyl.user.js
 // @updateURL    https://raw.githubusercontent.com/alapinto/youtube-music-vinyl/main/src/youtube-music-vinyl.user.js
 // ==UserScript==
-// @name         YouTube Music - Vinilo giratorio optimizado (fix círculo)
+// @name         YouTube Music - Funny Spinning Vinyl
 // @namespace    https://tampermonkey.net/
 // @version      1.0
 // @description  Spinning vinyl, with texture, and customization
@@ -25,7 +25,7 @@
       --vinyl-shift-y: -8px;
 
       /* Animation */
-      --spin-seconds: 15s;
+      --spin-seconds: 45s;
       --spin-direction: normal;      /* normal | reverse */
 
       /* Vinyl color */
@@ -315,6 +315,7 @@
 
   console.log('YouTube Music Vinyl — círculo perfecto aplicado');
 })();
+
 
 
 
