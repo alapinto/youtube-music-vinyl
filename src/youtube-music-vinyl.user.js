@@ -17,19 +17,19 @@
   const CSS = `
     :root {
       /* ==== Customizable Variables ==== */
-      --vinyl-scale: 0.85;           /* escala del vinilo (0.1–1.2) */
+      --vinyl-scale: 0.85;           /* vinyl scale (0.1–1.2) */
       --vinyl-padding: 22px;
       --vinyl-shift-y: -8px;
 
-      /* Animación (rotación) */
-      --spin-seconds: 45s;
+      /* Animation (rotation) */
+      --spin-seconds: 35s;
       --spin-direction: normal;      /* normal | reverse */
 
-      /* Apariencia */
+      /* Appearance */
       --vinyl-color: #1a1a1a;
       --vinyl-brightness: 0.98;
 
-      /* Etiqueta */
+      /* Label */
       --label-size: 35%;
       --label-use-image: 1; /* 1 = image, 0 = solid color */
       --label-image: url("https://i1.sndcdn.com/artworks-x8zI2HVC2pnkK7F5-4xKLyA-t500x500.jpg");
@@ -38,19 +38,19 @@
       --label-fallback-size: 100%;
       --label-fallback-brightness: 1.1;
 
-      /* Hueco central (relativo al diámetro de la etiqueta) */
+      /* Center hole (relative to label diameter) */
       --spindle-hole: 4%;
 
-      /* Overlay de color */
+      /* Color overlay */
       --vinyl-overlay-color: 255,0,0;
       --vinyl-overlay-opacity: 0.15;
 
-      /* Surcos */
+      /* Grooves */
       --groove-spacing: 42px;
       --groove-width: 0.6px;
       --groove-opacity: 0.12;
 
-      /* Efectos */
+      /* Effects */
       --halo-color: 255,255,255;
       --halo-opacity: 1;
       --disc-shadow: 0 0 25px rgba(0,0,0,0.8);
@@ -78,7 +78,7 @@
       pointer-events: none !important;
     }
 
-    /* Wrapper que SOLO escala (para que la animación no pise la escala) */
+    /* Wrapper that ONLY scales (so animation doesn't override scale) */
     .vinyl-scale-wrap {
       width: 100% !important;
       height: 100% !important;
@@ -89,7 +89,7 @@
       translate: 0;
     }
 
-    /* Rotor que SOLO rota linealmente */
+    /* Rotor that ONLY rotates linearly */
     .vinyl-rotor {
       width: 100% !important;
       height: 100% !important;
@@ -211,7 +211,7 @@
       pointer-events: none !important;
     }
 
-    /* Miniatura del player: solo rotación lineal */
+    /* Player thumbnail: only linear rotation */
     ytmusic-player-bar img.image.spinning {
       animation-name: vinyl-spin !important;
       animation-duration: var(--spin-seconds) !important;
@@ -258,7 +258,7 @@
     vinylContainer.className = 'vinyl-container';
     sizeSquareToHost(vinylContainer, host);
 
-    // NUEVA ESTRUCTURA: scale-wrap -> rotor -> disc
+    // NEW STRUCTURE: scale-wrap -> rotor -> disc
     const scaleWrap = document.createElement('div');
     scaleWrap.className = 'vinyl-scale-wrap';
 
