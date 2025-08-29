@@ -27,8 +27,7 @@ This script requires [Tampermonkey](https://www.tampermonkey.net/) (or a compati
 
 Installation:
 1. Install Tampermonkey from the links above.  
-2. Open the raw script link:
-
+2. Open the raw script link:[Youtube Music Vinyl}(https://raw.githubusercontent.com/alapinto/youtube-music-vinyl/main/src/youtube-music-vinyl.user.js)
 3. Tampermonkey will detect it and ask you to **Install**.  
 
 ---
