@@ -17,7 +17,7 @@
   const CSS = `
     :root {
 
-+/* ==== Customizable Variables (adjust to personalize the vinyl ==== */
+/* ==== Customizable Variables (adjust to personalize the vinyl ==== */
 
       /* Vinyl size and position */
       --vinyl-scale: 0.85;
@@ -59,7 +59,7 @@
       --disc-shadow: 0 0 25px rgba(0,0,0,0.8);
     }
 
-+/* ==== Advanced Configuration — do not modify unless you know what you're doing ==== */
+/* ==== Advanced Configuration — do not modify unless you know what you're doing ==== */
 
     @keyframes vinyl-spin {
       from { transform: rotate(0deg) scale(var(--vinyl-scale)); }
@@ -315,6 +315,7 @@
 
   console.log('YouTube Music Vinyl — círculo perfecto aplicado');
 })();
+
 
 
 
