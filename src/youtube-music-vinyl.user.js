@@ -42,13 +42,13 @@
       --label-fallback-brightness: 1.1;
 
       /* Central hole */
-      --spindle-hole: 4%;  /* relativo al diámetro de la etiqueta */
+      --spindle-hole: 4%;  /* relative to the label size */
 
       /* Color overlay */
       --vinyl-overlay-color: 255,0,0;
       --vinyl-overlay-opacity: 0.15;
 
-      /* Surcos */
+      /* Grooves */
       --groove-spacing: 42px;
       --groove-width: 0.6px;
       --groove-opacity: 0.12;
@@ -92,6 +92,7 @@
       position: relative !important;
       background: var(--vinyl-color) !important;
       animation: vinyl-spin var(--spin-seconds) infinite !important;
+      animation: vinyl-spin var(--spin-seconds) linear infinite !important;
       animation-direction: var(--spin-direction) !important;
       overflow: hidden !important;
       box-shadow:
@@ -198,6 +199,7 @@
 
     ytmusic-player-bar img.image.spinning {
       animation: vinyl-spin var(--spin-seconds) infinite !important;
+      animation: vinyl-spin var(--spin-seconds) linear infinite !important;
       animation-direction: var(--spin-direction) !important;
       border-radius: 50% !important;
     }
@@ -315,6 +317,7 @@
 
   console.log('YouTube Music Vinyl — círculo perfecto aplicado');
 })();
+
 
 
 
