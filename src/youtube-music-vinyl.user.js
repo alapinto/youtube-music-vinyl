@@ -1,11 +1,11 @@
-// @downloadURL  https://raw.githubusercontent.com/alapinto/youtube-music-vinyl/main/src/youtube-music-vinyl.user.js
-// @updateURL    https://raw.githubusercontent.com/alapinto/youtube-music-vinyl/main/src/youtube-music-vinyl.user.js
 // ==UserScript==
 // @name         YouTube Music - Funny Spinning Vinyl
 // @namespace    https://tampermonkey.net/
-// @version      1.0
-// @description  Spinning vinyl, with texture, and customization
+// @version      1.2
+// @description  Spinning vinyl, with texture, and customization (fixed scale)
 // @author       ALAPINTO
+// @downloadURL  https://raw.githubusercontent.com/alapinto/youtube-music-vinyl/main/src/youtube-music-vinyl.user.js
+// @updateURL    https://raw.githubusercontent.com/alapinto/youtube-music-vinyl/main/src/youtube-music-vinyl.user.js
 // @match        https://music.youtube.com/*
 // @run-at       document-idle
 // @grant        none
@@ -16,62 +16,55 @@
 
   const CSS = `
     :root {
-
-/*  Customizable Variables (adjust to personalize the vinyl  */
-
-      /* Vinyl size and position */
-      --vinyl-scale: 0.85;
+      /* ==== Customizable Variables ==== */
+      --vinyl-scale: 0.85;           /* escala del vinilo (0.1–1.2) */
       --vinyl-padding: 22px;
       --vinyl-shift-y: -8px;
 
-      /* Animation */
+      /* Animación (rotación) */
       --spin-seconds: 45s;
       --spin-direction: normal;      /* normal | reverse */
 
-      /* Vinyl color */
+      /* Apariencia */
       --vinyl-color: #1a1a1a;
       --vinyl-brightness: 0.98;
 
-      /* Label */
+      /* Etiqueta */
       --label-size: 35%;
-      --label-use-image: 1; /* 1 = imagen, 0 = color sólido */
+      --label-use-image: 1; /* 1 = image, 0 = solid color */
       --label-image: url("https://i1.sndcdn.com/artworks-x8zI2HVC2pnkK7F5-4xKLyA-t500x500.jpg");
       --label-image-size: 100%;
       --label-fallback-color: #ffffff;
       --label-fallback-size: 100%;
       --label-fallback-brightness: 1.1;
 
-      /* Central hole */
-      --spindle-hole: 4%;  /* relative to the label size */
+      /* Hueco central (relativo al diámetro de la etiqueta) */
+      --spindle-hole: 4%;
 
-      /* Color overlay */
+      /* Overlay de color */
       --vinyl-overlay-color: 255,0,0;
       --vinyl-overlay-opacity: 0.15;
 
-      /* Grooves */
+      /* Surcos */
       --groove-spacing: 42px;
       --groove-width: 0.6px;
       --groove-opacity: 0.12;
 
-      /* Effects */
+      /* Efectos */
       --halo-color: 255,255,255;
       --halo-opacity: 1;
       --disc-shadow: 0 0 25px rgba(0,0,0,0.8);
     }
 
-/*  Advanced Configuration — do not modify unless you know what you're doing  */
+    /* ==== Advanced Configuration — do not modify unless you know what you're doing ==== */
 
     @keyframes vinyl-spin {
-      from { transform: rotate(0deg) scale(var(--vinyl-scale)); }
-      to   { transform: rotate(360deg) scale(var(--vinyl-scale)); }
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
     }
 
     #song-image { background: #000 !important; position: relative !important; }
-
-    #song-image > *:not(.vinyl-container) {
-      opacity: 0 !important;
-      visibility: hidden !important;
-    }
+    #song-image > *:not(.vinyl-container) { opacity: 0 !important; visibility: hidden !important; }
 
     .vinyl-container {
       position: absolute !important;
@@ -85,15 +78,37 @@
       pointer-events: none !important;
     }
 
+    /* Wrapper que SOLO escala (para que la animación no pise la escala) */
+    .vinyl-scale-wrap {
+      width: 100% !important;
+      height: 100% !important;
+      transform: scale(var(--vinyl-scale));
+      transform-origin: 50% 50%;
+      will-change: transform;
+      backface-visibility: hidden;
+      translate: 0;
+    }
+
+    /* Rotor que SOLO rota linealmente */
+    .vinyl-rotor {
+      width: 100% !important;
+      height: 100% !important;
+      animation-name: vinyl-spin !important;
+      animation-duration: var(--spin-seconds) !important;
+      animation-iteration-count: infinite !important;
+      animation-timing-function: linear !important;
+      animation-direction: var(--spin-direction) !important;
+      will-change: transform;
+      backface-visibility: hidden;
+      translate: 0;
+    }
+
     .vinyl-disc {
       width: 100% !important;
       height: 100% !important;
       border-radius: 50% !important;
       position: relative !important;
       background: var(--vinyl-color) !important;
-      animation: vinyl-spin var(--spin-seconds) infinite !important;
-      animation: vinyl-spin var(--spin-seconds) linear infinite !important;
-      animation-direction: var(--spin-direction) !important;
       overflow: hidden !important;
       box-shadow:
         0 0 20px rgba(var(--halo-color), var(--halo-opacity)),
@@ -134,24 +149,24 @@
         transparent var(--groove-spacing)
       ) !important;
       z-index: 3 !important;
+      pointer-events: none !important;
     }
 
     .vinyl-center-mask {
       position: absolute !important;
-      left: 50% !important;
-      top: 50% !important;
+      left: 50% !important; top: 50% !important;
       width: calc(var(--label-size) + 2px) !important;
       height: calc(var(--label-size) + 2px) !important;
       transform: translate(-50%, -50%) !important;
       background: var(--vinyl-color) !important;
       border-radius: 50% !important;
       z-index: 4 !important;
+      pointer-events: none !important;
     }
 
     .vinyl-label {
       position: absolute !important;
-      left: 50% !important;
-      top: 50% !important;
+      left: 50% !important; top: 50% !important;
       width: var(--label-size) !important;
       height: var(--label-size) !important;
       transform: translate(-50%, -50%) !important;
@@ -162,18 +177,17 @@
         inset 0 0 8px rgba(0,0,0,0.3),
         0 0 6px rgba(0,0,0,0.4) !important;
       overflow: hidden !important;
+      pointer-events: none !important;
     }
 
     .vinyl-label.has-image {
       background: var(--label-image) no-repeat center !important;
       background-size: var(--label-image-size) !important;
     }
-
     .vinyl-label.has-color::before {
       content: '' !important;
       position: absolute !important;
-      left: 50% !important;
-      top: 50% !important;
+      left: 50% !important; top: 50% !important;
       width: var(--label-fallback-size) !important;
       height: var(--label-fallback-size) !important;
       transform: translate(-50%, -50%) !important;
@@ -184,8 +198,7 @@
 
     .vinyl-hole {
       position: absolute !important;
-      left: 50% !important;
-      top: 50% !important;
+      left: 50% !important; top: 50% !important;
       width: var(--spindle-hole) !important;
       height: var(--spindle-hole) !important;
       transform: translate(-50%, -50%) !important;
@@ -195,13 +208,20 @@
       box-shadow:
         inset 0 0 0 1px rgba(255,255,255,0.08),
         inset 0 0 4px rgba(0,0,0,0.6) !important;
+      pointer-events: none !important;
     }
 
+    /* Miniatura del player: solo rotación lineal */
     ytmusic-player-bar img.image.spinning {
-      animation: vinyl-spin var(--spin-seconds) infinite !important;
-      animation: vinyl-spin var(--spin-seconds) linear infinite !important;
+      animation-name: vinyl-spin !important;
+      animation-duration: var(--spin-seconds) !important;
+      animation-iteration-count: infinite !important;
+      animation-timing-function: linear !important;
       animation-direction: var(--spin-direction) !important;
       border-radius: 50% !important;
+      will-change: transform;
+      backface-visibility: hidden;
+      translate: 0;
     }
   `;
 
@@ -220,11 +240,9 @@
   function sizeSquareToHost(container, host) {
     const pad = parseFloat(getComputedStyle(document.documentElement)
       .getPropertyValue('--vinyl-padding')) || 0;
-
     const w = host.clientWidth;
     const h = host.clientHeight;
     const size = Math.max(0, Math.min(w, h) - pad * 2);
-
     container.style.width = size + 'px';
     container.style.height = size + 'px';
   }
@@ -239,6 +257,13 @@
     vinylContainer = document.createElement('div');
     vinylContainer.className = 'vinyl-container';
     sizeSquareToHost(vinylContainer, host);
+
+    // NUEVA ESTRUCTURA: scale-wrap -> rotor -> disc
+    const scaleWrap = document.createElement('div');
+    scaleWrap.className = 'vinyl-scale-wrap';
+
+    const rotor = document.createElement('div');
+    rotor.className = 'vinyl-rotor';
 
     const disc = document.createElement('div');
     disc.className = 'vinyl-disc';
@@ -259,7 +284,6 @@
 
     const label = document.createElement('div');
     label.className = 'vinyl-label';
-
     const useImage = getComputedStyle(document.documentElement)
       .getPropertyValue('--label-use-image').trim();
     if (useImage === '1') label.classList.add('has-image'); else label.classList.add('has-color');
@@ -274,7 +298,9 @@
     disc.appendChild(label);
     disc.appendChild(hole);
 
-    vinylContainer.appendChild(disc);
+    rotor.appendChild(disc);
+    scaleWrap.appendChild(rotor);
+    vinylContainer.appendChild(scaleWrap);
     host.appendChild(vinylContainer);
 
     currentSrc = originalImg.src;
@@ -315,12 +341,5 @@
   ['yt-navigate-finish', 'yt-page-data-updated']
     .forEach(event => document.addEventListener(event, scheduleUpdate));
 
-  console.log('YouTube Music Vinyl — círculo perfecto aplicado');
+  console.log('YouTube Music Vinyl — fixed scale (separate scale/rotation) applied');
 })();
-
-
-
-
-
-
-
