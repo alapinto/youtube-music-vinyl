@@ -35,7 +35,7 @@
       /* Label */
       --label-size: 35%;
       --label-use-image: 1; /* 1 = imagen, 0 = color sólido */
-      --label-image: url("https://www.giantfreakinrobot.com/wp-content/uploads/2022/08/rick-astley.jpg");
+      --label-image: url("https://i1.sndcdn.com/artworks-x8zI2HVC2pnkK7F5-4xKLyA-t500x500.jpg");
       --label-image-size: 100%;
       --label-fallback-color: #ffffff;
       --label-fallback-size: 100%;
@@ -315,4 +315,5 @@
 
   console.log('YouTube Music Vinyl — círculo perfecto aplicado');
 })();
+
 
