@@ -21,7 +21,11 @@ This script requires [Tampermonkey](https://www.tampermonkey.net/) (or a compati
 
 - **Chrome / Edge / Brave / Opera** → [Tampermonkey extension](https://www.tampermonkey.net/?ext=dhdg&browser=chrome)  
 - **Firefox** → [Tampermonkey for Firefox](https://www.tampermonkey.net/?ext=dhdg&browser=firefox)  
-- **Safari** → [Tampermonkey for Safari](https://www.tampermonkey.net/?ext=dhdg&browser=safari)  
+- **Safari** → [Tampermonkey for Safari](https://www.tampermonkey.net/?ext=dhdg&browser=safari)
+
+You need to enable userscripts for this one to work
+<img width="320" height="320" alt="image" src="https://github.com/user-attachments/assets/1be72d28-7542-4802-8be1-b8217906f4d7" />
+
 
 ---
 
